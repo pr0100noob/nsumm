@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; connect-src *;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nsumm.ru</title>
+<title>nsum.ru</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   #carousel-track { display:flex; transition:transform 0.35s cubic-bezier(.4,0,.2,1); will-change:transform; }
@@ -17,7 +17,7 @@
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6">
 
 <div class="text-center mb-10">
-  <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">nsumm.ru</h1>
+  <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">nsum.ru</h1>
   <p class="text-xl text-gray-600">ИИ-саммари новостей — локальный AI</p>
 </div>
 
@@ -121,7 +121,7 @@ var PROXIES = [
   "https://api.allorigins.win/raw?url="
 ];
 var ALL_CATS      = ["tech","politics","sport","world"];
-var ARCHIVE_KEY   = "nsumm_archive";
+var ARCHIVE_KEY   = "nsum_archive";
 var ARCHIVE_MAX   = 500;
 var POLL_INTERVAL        = 5 * 60 * 1000;
 var GLOBAL_POLL_INTERVAL = 5 * 60 * 1000;
@@ -174,9 +174,9 @@ function setProgress(label, cur, total) {
   document.getElementById("progressBar").style.width = Math.round(cur/total*100)+"%";
 }
 
-function saveModel(){localStorage.setItem("nsumm_model",getModel());log("Model: "+getModel(),"ok");}
+function saveModel(){localStorage.setItem("nsum_model",getModel());log("Model: "+getModel(),"ok");}
 function restoreSettings(){
-  var m=localStorage.getItem("nsumm_model"),u=localStorage.getItem("nsumm_url");
+  var m=localStorage.getItem("nsum_model"),u=localStorage.getItem("nsum_url");
   if(u)document.getElementById("ollamaUrl").value=u;
   if(m){
     var sel=document.getElementById("ollamaModel"),found=false;
@@ -185,7 +185,7 @@ function restoreSettings(){
     log("Model: "+m,"ok");
   }
 }
-document.getElementById("ollamaUrl").addEventListener("blur",function(){localStorage.setItem("nsumm_url",getUrl());});
+document.getElementById("ollamaUrl").addEventListener("blur",function(){localStorage.setItem("nsum_url",getUrl());});
 
 function archiveLoadAll(){try{return JSON.parse(localStorage.getItem(ARCHIVE_KEY))||{};}catch(e){return{};}}
 function archiveSaveAll(db){
@@ -529,7 +529,7 @@ function runAI(arts,i,cat,onDone){
 function showErr(msg){var e=document.getElementById("errorMsg");e.textContent=msg;e.classList.remove("hidden");}
 
 restoreSettings();
-log("nsumm.ru started","ok");
+log("nsum.ru started","ok");
 testOllama();
 loadNews("tech");
 startGlobalPolling();
