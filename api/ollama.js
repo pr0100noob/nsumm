@@ -1,20 +1,35 @@
 export default async function handler(req, res) {
-  const { url, ...body } = req.body;
-  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   const ollamaUrl = process.env.OLLAMA_URL || 'http://91.219.166.119:11434';
-  
-  const path = req.url.replace('/api/ollama', '');
-  
+  const path = req.url.replace('/api/ollama', '') || '/';
+
   try {
-    const response = await fetch(`${ollamaUrl}${path}`, {
+    const fetchOptions = {
       method: req.method,
       headers: { 'Content-Type': 'application/json' },
-      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
-    });
-    
-    const data = await response.json();
-    res.status(200).json(data);
+    };
+
+    if (req.method === 'POST' && req.body) {
+      fetchOptions.body = JSON.stringify(req.body);
+    }
+
+    const response = await fetch(`${ollamaUrl}${path}`, fetchOptions);
+    const text = await response.text();
+
+    try {
+      const data = JSON.parse(text);
+      return res.status(response.status).json(data);
+    } catch {
+      return res.status(response.status).send(text);
+    }
   } catch (error) {
-    res.status(500).json({ error: 'Ollama unreachable' });
+    return res.status(500).json({ error: error.message });
   }
 }
