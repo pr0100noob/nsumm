@@ -1,5 +1,5 @@
 {
-  "rewrites": [
-    { "source": "/api/ollama/(.*)", "destination": "/api/ollama" }
-  ]
+  "env": {
+    "ROUTER_KEY": "@router_key"
+  }
 }
