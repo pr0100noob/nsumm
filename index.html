@@ -18,40 +18,39 @@
 
 <div class="text-center mb-10">
   <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">nsum.ru</h1>
-  <p class="text-xl text-gray-600">ИИ-саммари новостей — локальный AI</p>
+  <p class="text-xl text-gray-600">ИИ-саммари новостей — Router AI</p>
 </div>
 
 <div class="max-w-xl mx-auto mb-8 bg-white rounded-2xl shadow-lg p-6 border border-blue-100">
-  <p class="font-bold text-gray-800 mb-1">Ollama сервер</p>
-  <p class="text-xs text-gray-400 mb-3">Локальная модель — никаких лимитов</p>
+  <p class="font-bold text-gray-800 mb-1">Router AI</p>
+  <p class="text-xs text-gray-400 mb-3">Облачная модель через routerai.ru</p>
   <div class="flex gap-2 items-center">
-  <input id="ollamaUrl" type="text" value=""
-      class="flex-1 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-blue-400" />
-    <select id="ollamaModel" onchange="saveModel()"
-      class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
-      <option value="gemma3:1b">gemma3:1b</option>
-      <option value="qwen2.5:1.5b">qwen2.5:1.5b</option>
-      <option value="qwen2.5:0.5b">qwen2.5:0.5b</option>
+    <select id="routerModel" onchange="saveModel()"
+      class="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
+      <option value="google/gemma-3-1b-it">google/gemma-3-1b-it</option>
+      <option value="google/gemma-3-4b-it">google/gemma-3-4b-it</option>
+      <option value="mistralai/mistral-small-3.1-24b-instruct">mistralai/mistral-small-3.1-24b-instruct</option>
+      <option value="openai/gpt-4o-mini">openai/gpt-4o-mini</option>
     </select>
-    <button onclick="testOllama()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-sm">Проверить</button>
+    <button onclick="testRouter()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-sm">Проверить</button>
   </div>
-  <div id="ollamaStatus" class="mt-3 text-sm hidden"></div>
+  <div id="routerStatus" class="mt-3 text-sm hidden"></div>
 </div>
 
 <div class="flex flex-wrap gap-4 justify-center mb-6">
   <button onclick="loadNews('tech')"     class="px-8 py-3 bg-blue-500   hover:bg-blue-600   text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">IT</button>
-  <button onclick="loadNews('politics')" class="px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">&#1055;&#1086;&#1083;&#1080;&#1090;&#1080;&#1082;&#1072;</button>
-  <button onclick="loadNews('sport')"    class="px-8 py-3 bg-orange-500  hover:bg-orange-600  text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">&#1057;&#1087;&#1086;&#1088;&#1090;</button>
-  <button onclick="loadNews('world')"    class="px-8 py-3 bg-purple-500  hover:bg-purple-600  text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">&#1052;&#1080;&#1088;</button>
+  <button onclick="loadNews('politics')" class="px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">Политика</button>
+  <button onclick="loadNews('sport')"    class="px-8 py-3 bg-orange-500  hover:bg-orange-600  text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">Спорт</button>
+  <button onclick="loadNews('world')"    class="px-8 py-3 bg-purple-500  hover:bg-purple-600  text-white font-bold rounded-2xl shadow-lg text-lg transition-all hover:scale-105">Мир</button>
 </div>
 
 <div class="max-w-xl mx-auto mb-8 bg-white rounded-2xl shadow-lg p-5 border border-indigo-100">
-  <p class="font-bold text-gray-800 mb-1">&#128197; &#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1100; &#1074;&#1089;&#1077; &#1085;&#1086;&#1074;&#1086;&#1089;&#1090;&#1080; &#1079;&#1072; &#1076;&#1072;&#1090;&#1091;</p>
-  <p class="text-xs text-gray-400 mb-3">&#1042;&#1089;&#1077; &#1090;&#1077;&#1084;&#1099; + &#1074;&#1089;&#1077; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1080; &#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;</p>
+  <p class="font-bold text-gray-800 mb-1">📅 Загрузить все новости за дату</p>
+  <p class="text-xs text-gray-400 mb-3">Все темы + все источники автоматически</p>
   <div class="flex gap-2 items-center">
     <input id="datePicker" type="date" class="flex-1 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-indigo-400" />
-    <button onclick="loadByDate()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-5 py-2 rounded-xl text-sm">&#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1100;</button>
-    <button onclick="stopLoading()" id="stopBtn" class="hidden bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded-xl text-sm">&#1057;&#1090;&#1086;&#1087;</button>
+    <button onclick="loadByDate()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-5 py-2 rounded-xl text-sm">Загрузить</button>
+    <button onclick="stopLoading()" id="stopBtn" class="hidden bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded-xl text-sm">Стоп</button>
   </div>
   <div id="progressWrap" class="mt-3 hidden">
     <div class="flex justify-between text-xs text-gray-500 mb-1">
@@ -71,8 +70,8 @@
       <span id="globalPollStatus" class="text-xs text-emerald-400 hidden"></span>
     </div>
     <div class="flex gap-2">
-      <button onclick="clearArchive()" class="text-red-400 text-xs px-2 py-1 bg-gray-700 rounded hover:bg-gray-600">&#1054;&#1095;&#1080;&#1089;&#1090;&#1080;&#1090;&#1100; &#1072;&#1088;&#1093;&#1080;&#1074;</button>
-      <button onclick="document.getElementById('log').innerHTML=''" class="text-gray-400 text-xs px-2 py-1 bg-gray-700 rounded hover:bg-gray-600">&#1054;&#1095;&#1080;&#1089;&#1090;&#1080;&#1090;&#1100; &#1083;&#1086;&#1075;</button>
+      <button onclick="clearArchive()" class="text-red-400 text-xs px-2 py-1 bg-gray-700 rounded hover:bg-gray-600">Очистить архив</button>
+      <button onclick="document.getElementById('log').innerHTML=''" class="text-gray-400 text-xs px-2 py-1 bg-gray-700 rounded hover:bg-gray-600">Очистить лог</button>
     </div>
   </div>
   <div id="log" class="font-mono text-xs space-y-1 max-h-48 overflow-y-auto"></div>
@@ -86,8 +85,8 @@
   <div id="carousel-wrap" class="overflow-hidden rounded-2xl shadow-xl bg-white border border-gray-100">
     <div id="carousel-track"></div>
   </div>
-  <button onclick="carouselPrev()" class="absolute left-0 top-1/2 -translate-y-6 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center text-gray-500 hover:text-blue-600 text-xl font-bold z-10 border border-gray-100">&#8249;</button>
-  <button onclick="carouselNext()" class="absolute right-0 top-1/2 -translate-y-6 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center text-gray-500 hover:text-blue-600 text-xl font-bold z-10 border border-gray-100">&#8250;</button>
+  <button onclick="carouselPrev()" class="absolute left-0 top-1/2 -translate-y-6 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center text-gray-500 hover:text-blue-600 text-xl font-bold z-10 border border-gray-100">‹</button>
+  <button onclick="carouselNext()" class="absolute right-0 top-1/2 -translate-y-6 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center text-gray-500 hover:text-blue-600 text-xl font-bold z-10 border border-gray-100">›</button>
   <div id="carousel-dots" class="flex justify-center gap-2 mt-4 flex-wrap"></div>
 </div>
 
@@ -113,6 +112,7 @@ var FEEDS = {
     "https://ria.ru/export/rss2/world/index.xml"
   ]
 };
+
 var PROXIES = [
   "/api/rss?url=",
   "https://corsproxy.io/?",
@@ -120,252 +120,338 @@ var PROXIES = [
   "https://thingproxy.freeboard.io/fetch/",
   "https://api.allorigins.win/raw?url="
 ];
-var ALL_CATS      = ["tech","politics","sport","world"];
-var ARCHIVE_KEY   = "nsum_archive";
-var ARCHIVE_MAX   = 500;
-var POLL_INTERVAL        = 5 * 60 * 1000;
+
+var ALL_CATS             = ["tech","politics","sport","world"];
+var ARCHIVE_KEY          = "nsum_archive";
+var ARCHIVE_MAX          = 500;
 var GLOBAL_POLL_INTERVAL = 5 * 60 * 1000;
 
-var _cat              = "tech";
-var _pollTimer        = null;
-var _globalPollTimer  = null;
-var _aiRunning        = false;
-var _stopFlag         = false;
-var _globalPollBusy   = false;
+var ROUTER_KEY   = "sk-ieuhiOOQYAWSigF7yz94GcMsxabDbUPp";
+var ROUTER_URL   = "https://router.requesty.ai/v1/chat/completions";
 
-// Устанавливаем сегодняшнюю дату
-(function(){
+var _cat             = "tech";
+var _fi              = 0;
+var _pi              = 0;
+var _globalPollTimer = null;
+var _aiRunning       = false;
+var _stopFlag        = false;
+var _globalPollBusy  = false;
+
+// Сегодняшняя дата по умолчанию
+(function () {
   var d = new Date();
-  var s = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  var s = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   document.getElementById("datePicker").value = s;
 })();
 
-function getUrl()   {
-  var v = document.getElementById("ollamaUrl").value.replace(/\/$/,"");
-  return v || "/api/ollama";
-}
-function getModel() { return document.getElementById("ollamaModel").value; }
+function getModel() { return document.getElementById("routerModel").value; }
 
 function log(msg, t) {
   var d = document.getElementById("log");
-  var cols  = {info:"text-blue-400",ok:"text-green-400",error:"text-red-400",warn:"text-yellow-400"};
-  var icons = {info:"->",ok:"OK",error:"ERR",warn:"..."};
+  var cols  = { info: "text-blue-400", ok: "text-green-400", error: "text-red-400", warn: "text-yellow-400" };
+  var icons = { info: "->", ok: "OK", error: "ERR", warn: "..." };
   var ln = document.createElement("div");
   ln.className   = cols[t] || "text-gray-300";
-  ln.textContent = "["+new Date().toLocaleTimeString()+"] ["+(icons[t]||"->")+"] "+msg;
-  d.appendChild(ln); d.scrollTop = d.scrollHeight;
+  ln.textContent = "[" + new Date().toLocaleTimeString() + "] [" + (icons[t] || "->") + "] " + msg;
+  d.appendChild(ln);
+  d.scrollTop = d.scrollHeight;
 }
+
 function setStatus(txt) {
   var el = document.getElementById("carousel-status");
-  if (txt){el.textContent=txt;el.classList.remove("hidden");}
-  else    {el.classList.add("hidden");}
+  if (txt) { el.textContent = txt; el.classList.remove("hidden"); }
+  else      { el.classList.add("hidden"); }
 }
+
 function setGlobalStatus(txt) {
   var el = document.getElementById("globalPollStatus");
-  if (txt){el.textContent=txt;el.classList.remove("hidden");}
-  else    {el.classList.add("hidden");}
+  if (txt) { el.textContent = txt; el.classList.remove("hidden"); }
+  else      { el.classList.add("hidden"); }
 }
+
 function setProgress(label, cur, total) {
   var wrap = document.getElementById("progressWrap");
-  if (!total){wrap.classList.add("hidden");return;}
+  if (!total) { wrap.classList.add("hidden"); return; }
   wrap.classList.remove("hidden");
   document.getElementById("progressLabel").textContent = label;
-  document.getElementById("progressCount").textContent = cur+" / "+total;
-  document.getElementById("progressBar").style.width = Math.round(cur/total*100)+"%";
+  document.getElementById("progressCount").textContent = cur + " / " + total;
+  document.getElementById("progressBar").style.width = Math.round(cur / total * 100) + "%";
 }
 
-function saveModel(){localStorage.setItem("nsum_model",getModel());log("Model: "+getModel(),"ok");}
-function restoreSettings(){
-  var m=localStorage.getItem("nsum_model"),u=localStorage.getItem("nsum_url");
-  if(u)document.getElementById("ollamaUrl").value=u;
-  if(m){
-    var sel=document.getElementById("ollamaModel"),found=false;
-    for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===m){sel.selectedIndex=i;found=true;break;}}
-    if(!found){var o=document.createElement("option");o.value=m;o.textContent=m;o.selected=true;sel.insertBefore(o,sel.firstChild);}
-    log("Model: "+m,"ok");
+function saveModel() {
+  localStorage.setItem("nsum_model", getModel());
+  log("Model: " + getModel(), "ok");
+}
+
+function restoreSettings() {
+  var m = localStorage.getItem("nsum_model");
+  if (m) {
+    var sel = document.getElementById("routerModel"), found = false;
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === m) { sel.selectedIndex = i; found = true; break; }
+    }
+    if (!found) {
+      var o = document.createElement("option");
+      o.value = m; o.textContent = m; o.selected = true;
+      sel.insertBefore(o, sel.firstChild);
+    }
+    log("Model: " + m, "ok");
   }
 }
-document.getElementById("ollamaUrl").addEventListener("blur",function(){localStorage.setItem("nsum_url",getUrl());});
 
-function archiveLoadAll(){try{return JSON.parse(localStorage.getItem(ARCHIVE_KEY))||{};}catch(e){return{};}}
-function archiveSaveAll(db){
-  try{localStorage.setItem(ARCHIVE_KEY,JSON.stringify(db));}
-  catch(e){ALL_CATS.forEach(function(k){if(db[k])db[k]=db[k].slice(0,80);});localStorage.setItem(ARCHIVE_KEY,JSON.stringify(db));log("Archive trimmed","warn");}
+// ---- АРХИВ ----
+function archiveLoadAll() { try { return JSON.parse(localStorage.getItem(ARCHIVE_KEY)) || {}; } catch (e) { return {}; } }
+function archiveSaveAll(db) {
+  try { localStorage.setItem(ARCHIVE_KEY, JSON.stringify(db)); }
+  catch (e) {
+    ALL_CATS.forEach(function (k) { if (db[k]) db[k] = db[k].slice(0, 80); });
+    localStorage.setItem(ARCHIVE_KEY, JSON.stringify(db));
+    log("Archive trimmed", "warn");
+  }
 }
-function archiveGetCat(cat){return archiveLoadAll()[cat]||[];}
-function archiveAdd(cat,item){
-  var db=archiveLoadAll();
-  if(!db[cat])db[cat]=[];
-  if(db[cat].some(function(x){return x.link===item.link;}))return false;
+function archiveGetCat(cat) { return archiveLoadAll()[cat] || []; }
+function archiveAdd(cat, item) {
+  var db = archiveLoadAll();
+  if (!db[cat]) db[cat] = [];
+  if (db[cat].some(function (x) { return x.link === item.link; })) return false;
   db[cat].unshift(item);
-  if(db[cat].length>ARCHIVE_MAX)db[cat]=db[cat].slice(0,ARCHIVE_MAX);
+  if (db[cat].length > ARCHIVE_MAX) db[cat] = db[cat].slice(0, ARCHIVE_MAX);
   archiveSaveAll(db);
   return true;
 }
-function clearArchive(){
-  if(!confirm("Clear all archive?"))return;
+function clearArchive() {
+  if (!confirm("Очистить весь архив?")) return;
   localStorage.removeItem(ARCHIVE_KEY);
-  _carousel.items=[];renderCarousel();
-  log("Archive cleared","ok");
+  _carousel.items = []; renderCarousel();
+  log("Archive cleared", "ok");
 }
 
-var _carousel={items:[],idx:0};
-(function(){
-  var wrap=document.getElementById("carousel-wrap"),sx=0,drag=false;
-  wrap.addEventListener("mousedown",  function(e){sx=e.clientX;drag=true;e.preventDefault();});
-  wrap.addEventListener("mouseup",    function(e){if(!drag)return;drag=false;if(Math.abs(e.clientX-sx)>40)e.clientX<sx?carouselNext():carouselPrev();});
-  wrap.addEventListener("mouseleave", function(){drag=false;});
-  wrap.addEventListener("touchstart", function(e){sx=e.touches[0].clientX;},{passive:true});
-  wrap.addEventListener("touchend",   function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)dx<0?carouselNext():carouselPrev();},{passive:true});
+// ---- КАРУСЕЛЬ ----
+var _carousel = { items: [], idx: 0 };
+(function () {
+  var wrap = document.getElementById("carousel-wrap"), sx = 0, drag = false;
+  wrap.addEventListener("mousedown",  function (e) { sx = e.clientX; drag = true; e.preventDefault(); });
+  wrap.addEventListener("mouseup",    function (e) { if (!drag) return; drag = false; if (Math.abs(e.clientX - sx) > 40) e.clientX < sx ? carouselNext() : carouselPrev(); });
+  wrap.addEventListener("mouseleave", function ()  { drag = false; });
+  wrap.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener("touchend",   function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) dx < 0 ? carouselNext() : carouselPrev(); }, { passive: true });
 })();
-function carouselNext(){if(!_carousel.items.length)return;_carousel.idx=(_carousel.idx+1)%_carousel.items.length;carouselGoto(_carousel.idx);}
-function carouselPrev(){if(!_carousel.items.length)return;_carousel.idx=(_carousel.idx-1+_carousel.items.length)%_carousel.items.length;carouselGoto(_carousel.idx);}
-function carouselGoto(i){
-  _carousel.idx=Math.max(0,Math.min(i,_carousel.items.length-1));
-  document.getElementById("carousel-track").style.transform="translateX(-"+(_carousel.idx*100)+"%)";
-  _updateDots();_updateCounter();
+
+function carouselNext() { if (!_carousel.items.length) return; _carousel.idx = (_carousel.idx + 1) % _carousel.items.length; carouselGoto(_carousel.idx); }
+function carouselPrev() { if (!_carousel.items.length) return; _carousel.idx = (_carousel.idx - 1 + _carousel.items.length) % _carousel.items.length; carouselGoto(_carousel.idx); }
+function carouselGoto(i) {
+  _carousel.idx = Math.max(0, Math.min(i, _carousel.items.length - 1));
+  document.getElementById("carousel-track").style.transform = "translateX(-" + (_carousel.idx * 100) + "%)";
+  _updateDots(); _updateCounter();
 }
-function _updateCounter(){
-  var el=document.getElementById("carousel-counter");
-  el.textContent=_carousel.items.length?(_carousel.idx+1)+" / "+_carousel.items.length:"";
+function _updateCounter() {
+  var el = document.getElementById("carousel-counter");
+  el.textContent = _carousel.items.length ? (_carousel.idx + 1) + " / " + _carousel.items.length : "";
 }
-function _updateDots(){
-  var wrap=document.getElementById("carousel-dots");wrap.innerHTML="";
-  var max=Math.min(_carousel.items.length,20);
-  for(var i=0;i<max;i++){
-    var d=document.createElement("button");
-    d.className="w-2 h-2 rounded-full transition-all "+(i===_carousel.idx?"bg-blue-500 scale-125":"bg-gray-300");
-    d.onclick=(function(idx){return function(){carouselGoto(idx);};})(i);
+function _updateDots() {
+  var wrap = document.getElementById("carousel-dots"); wrap.innerHTML = "";
+  var max = Math.min(_carousel.items.length, 20);
+  for (var i = 0; i < max; i++) {
+    var d = document.createElement("button");
+    d.className = "w-2 h-2 rounded-full transition-all " + (i === _carousel.idx ? "bg-blue-500 scale-125" : "bg-gray-300");
+    d.onclick = (function (idx) { return function () { carouselGoto(idx); }; })(i);
     wrap.appendChild(d);
   }
 }
-function encodeLink(link){return link.replace(/[^a-z0-9]/gi,"").slice(-24);}
-function slideHTML(item){
-  var aiDone=item.summary&&item.summary.length>5;
-  var badge=aiDone
-    ?"<span class='text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold'>AI summary</span>"
-    :"<span class='text-xs bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-semibold'>&#9203; ...</span>";
-  var catColors={tech:"bg-blue-50 text-blue-600",politics:"bg-emerald-50 text-emerald-600",sport:"bg-orange-50 text-orange-600",world:"bg-purple-50 text-purple-600"};
-  var catLabel={tech:"IT",politics:"&#1055;&#1086;&#1083;&#1080;&#1090;&#1080;&#1082;&#1072;",sport:"&#1057;&#1087;&#1086;&#1088;&#1090;",world:"&#1052;&#1080;&#1088;"};
-  var catBadge = item.cat ? "<span class='text-xs px-2 py-0.5 rounded-full font-medium "+(catColors[item.cat]||"")+"'>"+(catLabel[item.cat]||item.cat)+"</span>" : "";
-  var body=aiDone?item.summary:(item.desc||item.title||"");
+function encodeLink(link) { return link.replace(/[^a-z0-9]/gi, "").slice(-24); }
+function slideHTML(item) {
+  var aiDone = item.summary && item.summary.length > 5;
+  var badge = aiDone
+    ? "<span class='text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold'>AI summary</span>"
+    : "<span class='text-xs bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-semibold'>⏳ ...</span>";
+  var catColors = { tech: "bg-blue-50 text-blue-600", politics: "bg-emerald-50 text-emerald-600", sport: "bg-orange-50 text-orange-600", world: "bg-purple-50 text-purple-600" };
+  var catLabel  = { tech: "IT", politics: "Политика", sport: "Спорт", world: "Мир" };
+  var catBadge  = item.cat ? "<span class='text-xs px-2 py-0.5 rounded-full font-medium " + (catColors[item.cat] || "") + "'>" + (catLabel[item.cat] || item.cat) + "</span>" : "";
+  var body = aiDone ? item.summary : (item.desc || item.title || "");
   return "<div class='p-8 min-h-72'>"
-    +"<div class='flex flex-wrap justify-between items-center gap-2 mb-4'>"+badge+catBadge
-    +"<span class='text-xs text-gray-400'>"+(item.date||"")+"</span></div>"
-    +"<h3 class='font-bold text-xl mb-4 text-gray-900 leading-tight'>"+(item.title||"")+"</h3>"
-    +"<p class='text-gray-600 mb-6 text-sm leading-relaxed'>"+body.slice(0,400)+"</p>"
-    +"<a href='"+(item.link||"#")+"' target='_blank' class='inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-xl font-medium text-sm transition-colors'>&#1063;&#1080;&#1090;&#1072;&#1090;&#1100; &#1086;&#1088;&#1080;&#1075;&#1080;&#1085;&#1072;&#1083;</a></div>";
+    + "<div class='flex flex-wrap justify-between items-center gap-2 mb-4'>" + badge + catBadge
+    + "<span class='text-xs text-gray-400'>" + (item.date || "") + "</span></div>"
+    + "<h3 class='font-bold text-xl mb-4 text-gray-900 leading-tight'>" + (item.title || "") + "</h3>"
+    + "<p class='text-gray-600 mb-6 text-sm leading-relaxed'>" + body.slice(0, 400) + "</p>"
+    + "<a href='" + (item.link || "#") + "' target='_blank' class='inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-xl font-medium text-sm transition-colors'>Читать оригинал</a></div>";
 }
-function renderCarousel(){
-  var track=document.getElementById("carousel-track");track.innerHTML="";
-  _carousel.items.forEach(function(item){
-    var slide=document.createElement("div");slide.className="carousel-card";
-    slide.id="cslide-"+encodeLink(item.link);slide.innerHTML=slideHTML(item);track.appendChild(slide);
+function renderCarousel() {
+  var track = document.getElementById("carousel-track"); track.innerHTML = "";
+  _carousel.items.forEach(function (item) {
+    var slide = document.createElement("div");
+    slide.className = "carousel-card";
+    slide.id = "cslide-" + encodeLink(item.link);
+    slide.innerHTML = slideHTML(item);
+    track.appendChild(slide);
   });
-  if(_carousel.idx>=_carousel.items.length&&_carousel.items.length>0)_carousel.idx=0;
+  if (_carousel.idx >= _carousel.items.length && _carousel.items.length > 0) _carousel.idx = 0;
   carouselGoto(_carousel.idx);
 }
-function carouselUpsert(item){
-  var idx=-1;
-  for(var i=0;i<_carousel.items.length;i++){if(_carousel.items[i].link===item.link){idx=i;break;}}
-  if(idx>=0){
-    _carousel.items[idx]=item;
-    var el=document.getElementById("cslide-"+encodeLink(item.link));
-    if(el){el.innerHTML=slideHTML(item);el.style.background="#f0fdf4";setTimeout(function(){el.style.background="";},1200);}
+function carouselUpsert(item) {
+  var idx = -1;
+  for (var i = 0; i < _carousel.items.length; i++) { if (_carousel.items[i].link === item.link) { idx = i; break; } }
+  if (idx >= 0) {
+    _carousel.items[idx] = item;
+    var el = document.getElementById("cslide-" + encodeLink(item.link));
+    if (el) { el.innerHTML = slideHTML(item); el.style.background = "#f0fdf4"; setTimeout(function () { el.style.background = ""; }, 1200); }
     _updateCounter();
   } else {
-    _carousel.items.unshift(item);renderCarousel();carouselGoto(0);
+    _carousel.items.unshift(item); renderCarousel(); carouselGoto(0);
   }
 }
 
-function testOllama(){
-  var st=document.getElementById("ollamaStatus");
-  st.className="mt-3 text-sm text-yellow-600";st.textContent="...";st.classList.remove("hidden");
-  var xhr=new XMLHttpRequest();xhr.open("GET",getUrl()+"/api/tags",true);xhr.timeout=5000;
-  xhr.onload=function(){
-    if(xhr.status===200){
-      try{var models=JSON.parse(xhr.responseText).models.map(function(m){return m.name;}).join(", ");
-        st.className="mt-3 text-sm text-green-600 font-medium";st.textContent="OK: "+models;log("Ollama OK: "+models,"ok");
-      }catch(e){st.className="mt-3 text-sm text-green-600";st.textContent="OK";}
-    }else{st.className="mt-3 text-sm text-red-600";st.textContent="HTTP "+xhr.status;}
+// ---- ROUTER AI ----
+function testRouter() {
+  var st = document.getElementById("routerStatus");
+  st.className = "mt-3 text-sm text-yellow-600"; st.textContent = "Проверяю..."; st.classList.remove("hidden");
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", ROUTER_URL, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("Authorization", "Bearer " + ROUTER_KEY);
+  xhr.timeout = 15000;
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      st.className = "mt-3 text-sm text-green-600 font-medium";
+      st.textContent = "OK — модель " + getModel() + " доступна";
+      log("Router AI OK: " + getModel(), "ok");
+    } else {
+      st.className = "mt-3 text-sm text-red-600";
+      st.textContent = "Ошибка HTTP " + xhr.status + ": " + xhr.responseText.slice(0, 120);
+      log("Router AI error: " + xhr.status, "error");
+    }
   };
-  xhr.ontimeout=function(){st.className="mt-3 text-sm text-red-600";st.textContent="TIMEOUT";log("Ollama TIMEOUT","error");};
-  xhr.onerror=function(){st.className="mt-3 text-sm text-red-600";st.textContent="ERROR: "+xhr.status+" / "+xhr.statusText;log("Ollama ERROR: "+xhr.status+" "+xhr.statusText,"error");};log("Ollama unreachable","error");
-  xhr.send();
+  xhr.ontimeout = function () { st.className = "mt-3 text-sm text-red-600"; st.textContent = "TIMEOUT"; log("Router AI timeout", "error"); };
+  xhr.onerror   = function () { st.className = "mt-3 text-sm text-red-600"; st.textContent = "Сетевая ошибка"; log("Router AI net error", "error"); };
+  xhr.send(JSON.stringify({
+    model: getModel(),
+    messages: [{ role: "user", content: "ping" }],
+    max_tokens: 5
+  }));
 }
 
-var _fi=0,_pi=0;
-function loadNews(cat){
-  _cat=cat;_fi=0;_pi=0;
+function buildPrompt(title, text) {
+  var content = text.length > 50
+    ? "Title: " + title + "\n\nArticle: " + text.slice(0, 600)
+    : "News headline: " + title + "\n\nWrite a brief summary in Russian (1-2 sentences).";
+  return {
+    model: getModel(),
+    messages: [
+      { role: "system", content: "Ты редактор новостей. Напиши краткое саммари на русском — 1-2 предложения. Только текст саммари, без заголовков, без повтора заголовка." },
+      { role: "user", content: content }
+    ],
+    temperature: 0.3,
+    max_tokens: 170
+  };
+}
+
+function runAI(arts, i, cat, onDone) {
+  if (_stopFlag) { _aiRunning = false; setStatus(""); if (onDone) onDone(0); return; }
+  if (i >= arts.length) { _aiRunning = false; setStatus(""); if (onDone) onDone(arts.length); return; }
+  _aiRunning = true;
+  var a = arts[i], txt = a.fetchedText || a.desc || "";
+  setStatus("AI [" + (i + 1) + "/" + arts.length + "] " + cat + "...");
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", ROUTER_URL, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("Authorization", "Bearer " + ROUTER_KEY);
+  xhr.timeout = 30000;
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      try {
+        var data    = JSON.parse(xhr.responseText);
+        var summary = data.choices[0].message.content.trim();
+        if (summary.length > 5) {
+          var fullItem = { title: a.title, link: a.link, date: a.date, desc: a.desc, cat: a.cat || cat, summary: summary };
+          if (cat === _cat) carouselUpsert(fullItem);
+          archiveAdd(cat, fullItem);
+          log("AI[" + (i + 1) + "] [" + cat + "] ok", "ok");
+        } else {
+          log("AI[" + (i + 1) + "] empty response", "warn");
+        }
+      } catch (e) { log("AI parse err: " + e, "error"); }
+    } else {
+      log("AI HTTP " + xhr.status + ": " + xhr.responseText.slice(0, 120), "error");
+    }
+    runAI(arts, i + 1, cat, onDone);
+  };
+  xhr.ontimeout = function () { log("AI timeout", "error"); runAI(arts, i + 1, cat, onDone); };
+  xhr.onerror   = function () { log("AI net err", "error");  runAI(arts, i + 1, cat, onDone); };
+  xhr.send(JSON.stringify(buildPrompt(a.title, txt)));
+}
+
+// ---- RSS ----
+function loadNews(cat) {
+  _cat = cat; _fi = 0; _pi = 0;
   document.getElementById("errorMsg").classList.add("hidden");
-  log("=== "+cat+" ===","info");
-  var archived=archiveGetCat(cat);
-  _carousel.items=archived.slice();_carousel.idx=0;renderCarousel();
-  if(archived.length)log("Archive: "+archived.length,"ok");
+  log("=== " + cat + " ===", "info");
+  var archived = archiveGetCat(cat);
+  _carousel.items = archived.slice(); _carousel.idx = 0; renderCarousel();
+  if (archived.length) log("Archive: " + archived.length, "ok");
   setStatus("loading RSS...");
   tryProxy();
 }
-function tryProxy(){
-  if(_fi>=FEEDS[_cat].length){log("All RSS failed","error");showErr("RSS unavailable");setStatus("");return;}
-  if(_pi>=PROXIES.length){_fi++;_pi=0;tryProxy();return;}
-  var rss=FEEDS[_cat][_fi];
-  var xhr=new XMLHttpRequest();xhr.open("GET",PROXIES[_pi]+encodeURIComponent(rss),true);xhr.timeout=15000;
-  xhr.onload=function(){
-    if(xhr.status!==200||xhr.responseText.length<500){_pi++;tryProxy();return;}
-    if(xhr.responseText.indexOf("<item")<0&&xhr.responseText.indexOf("<entry")<0){_pi++;tryProxy();return;}
-    parseFeed(xhr.responseText,_cat,20,null,function(){setStatus("");});
+
+function tryProxy() {
+  if (_fi >= FEEDS[_cat].length) { log("All RSS failed", "error"); showErr("RSS unavailable"); setStatus(""); return; }
+  if (_pi >= PROXIES.length)     { _fi++; _pi = 0; tryProxy(); return; }
+  var rss = FEEDS[_cat][_fi];
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", PROXIES[_pi] + encodeURIComponent(rss), true); xhr.timeout = 15000;
+  xhr.onload = function () {
+    if (xhr.status !== 200 || xhr.responseText.length < 500) { _pi++; tryProxy(); return; }
+    if (xhr.responseText.indexOf("<item") < 0 && xhr.responseText.indexOf("<entry") < 0) { _pi++; tryProxy(); return; }
+    parseFeed(xhr.responseText, _cat, 20, null, function () { setStatus(""); });
   };
-  xhr.ontimeout=xhr.onerror=function(){_pi++;tryProxy();};
+  xhr.ontimeout = xhr.onerror = function () { _pi++; tryProxy(); };
   xhr.send();
 }
 
-// GLOBAL POLLING — все темы каждые 5 минут
-function startGlobalPolling(){
-  if(_globalPollTimer)clearInterval(_globalPollTimer);
-  // Первый прогон через 30 секунд после старта
-  setTimeout(function(){globalPollCycle();},30000);
-  _globalPollTimer=setInterval(function(){globalPollCycle();},GLOBAL_POLL_INTERVAL);
-  log("Global poll: all cats every 5 min","info");
+// ---- GLOBAL POLLING ----
+function startGlobalPolling() {
+  if (_globalPollTimer) clearInterval(_globalPollTimer);
+  setTimeout(function () { globalPollCycle(); }, 30000);
+  _globalPollTimer = setInterval(function () { globalPollCycle(); }, GLOBAL_POLL_INTERVAL);
+  log("Global poll: all cats every 5 min", "info");
 }
 
-function globalPollCycle(){
-  if(_globalPollBusy){log("Global poll: busy, skip","warn");return;}
-  _globalPollBusy=true;
-  log("Global poll: starting cycle...","info");
-  setGlobalStatus("&#128337; global scan...");
-  var catIdx=0;
-  function nextCat(){
-    if(catIdx>=ALL_CATS.length){
-      _globalPollBusy=false;
-      setGlobalStatus("");
-      log("Global poll: cycle done","ok");
-      return;
+function globalPollCycle() {
+  if (_globalPollBusy) { log("Global poll: busy, skip", "warn"); return; }
+  _globalPollBusy = true;
+  log("Global poll: starting cycle...", "info");
+  setGlobalStatus("🕑 global scan...");
+  var catIdx = 0;
+  function nextCat() {
+    if (catIdx >= ALL_CATS.length) {
+      _globalPollBusy = false; setGlobalStatus("");
+      log("Global poll: cycle done", "ok"); return;
     }
-    var cat=ALL_CATS[catIdx];
-    setGlobalStatus("&#128337; scanning "+cat+"...");
-    globalPollCat(cat,function(){catIdx++;nextCat();});
+    var cat = ALL_CATS[catIdx];
+    setGlobalStatus("🕑 scanning " + cat + "...");
+    globalPollCat(cat, function () { catIdx++; nextCat(); });
   }
   nextCat();
 }
 
-function globalPollCat(cat,onCatDone){
-  var feeds=FEEDS[cat];
-  var fi=0;
-  function nextFeed(){
-    if(fi>=feeds.length){onCatDone();return;}
-    var pi=0;
-    function tryP(){
-      if(pi>=PROXIES.length){fi++;nextFeed();return;}
-      var xhr=new XMLHttpRequest();xhr.open("GET",PROXIES[pi]+encodeURIComponent(feeds[fi]),true);xhr.timeout=12000;
-      xhr.onload=function(){
-        if(xhr.status!==200||xhr.responseText.length<500
-           ||(xhr.responseText.indexOf("<item")<0&&xhr.responseText.indexOf("<entry")<0)){pi++;tryP();return;}
-        parseFeed(xhr.responseText,cat,20,null,function(added){
-          log("Global ["+cat+"] feed "+(fi+1)+"/"+feeds.length+": +"+added,"ok");
-          fi++;nextFeed();
+function globalPollCat(cat, onCatDone) {
+  var feeds = FEEDS[cat], fi = 0;
+  function nextFeed() {
+    if (fi >= feeds.length) { onCatDone(); return; }
+    var pi = 0;
+    function tryP() {
+      if (pi >= PROXIES.length) { fi++; nextFeed(); return; }
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", PROXIES[pi] + encodeURIComponent(feeds[fi]), true); xhr.timeout = 12000;
+      xhr.onload = function () {
+        if (xhr.status !== 200 || xhr.responseText.length < 500
+          || (xhr.responseText.indexOf("<item") < 0 && xhr.responseText.indexOf("<entry") < 0)) { pi++; tryP(); return; }
+        parseFeed(xhr.responseText, cat, 20, null, function (added) {
+          log("Global [" + cat + "] feed " + (fi + 1) + "/" + feeds.length + ": +" + added, "ok");
+          fi++; nextFeed();
         });
       };
-      xhr.ontimeout=xhr.onerror=function(){pi++;tryP();};
+      xhr.ontimeout = xhr.onerror = function () { pi++; tryP(); };
       xhr.send();
     }
     tryP();
@@ -373,50 +459,47 @@ function globalPollCat(cat,onCatDone){
   nextFeed();
 }
 
-// LOAD BY DATE — все темы, все источники, фильтр по дате
-function stopLoading(){
-  _stopFlag=true;
+// ---- LOAD BY DATE ----
+function stopLoading() {
+  _stopFlag = true;
   document.getElementById("stopBtn").classList.add("hidden");
-  setProgress("",0,0);setStatus("");
-  log("Stopped","warn");
+  setProgress("", 0, 0); setStatus("");
+  log("Stopped", "warn");
 }
 
-function loadByDate(){
-  var dateVal=document.getElementById("datePicker").value;
-  if(!dateVal){alert("Select date");return;}
-  if(_aiRunning){alert("AI busy, wait");return;}
-  _stopFlag=false;
+function loadByDate() {
+  var dateVal = document.getElementById("datePicker").value;
+  if (!dateVal) { alert("Выберите дату"); return; }
+  if (_aiRunning) { alert("AI занят, подождите"); return; }
+  _stopFlag = false;
   document.getElementById("stopBtn").classList.remove("hidden");
-  log("=== Load by date: "+dateVal+" ===","info");
-
-  // Считаем total feeds по всем категориям
-  var allFeeds=[];
-  ALL_CATS.forEach(function(cat){FEEDS[cat].forEach(function(f){allFeeds.push({cat:cat,url:f});});});
-  var totalFeeds=allFeeds.length;
-  var fi=0,totalAdded=0;
-
-  function nextFeed(){
-    if(_stopFlag||fi>=allFeeds.length){
+  log("=== Load by date: " + dateVal + " ===", "info");
+  var allFeeds = [];
+  ALL_CATS.forEach(function (cat) { FEEDS[cat].forEach(function (f) { allFeeds.push({ cat: cat, url: f }); }); });
+  var totalFeeds = allFeeds.length, fi = 0, totalAdded = 0;
+  function nextFeed() {
+    if (_stopFlag || fi >= allFeeds.length) {
       document.getElementById("stopBtn").classList.add("hidden");
-      setProgress("Done! Added: "+totalAdded,totalFeeds,totalFeeds);
-      log("Load by date done. Added: "+totalAdded,"ok");
-      setTimeout(function(){setProgress("",0,0);},4000);
+      setProgress("Done! Added: " + totalAdded, totalFeeds, totalFeeds);
+      log("Load by date done. Added: " + totalAdded, "ok");
+      setTimeout(function () { setProgress("", 0, 0); }, 4000);
       return;
     }
-    var item=allFeeds[fi];
-    setProgress("Scanning "+item.cat+" / "+(fi+1)+"/"+totalFeeds+": "+item.url.replace("https://","").slice(0,28), fi, totalFeeds);
-    var pi=0;
-    function tryP(){
-      if(pi>=PROXIES.length){fi++;nextFeed();return;}
-      var xhr=new XMLHttpRequest();xhr.open("GET",PROXIES[pi]+encodeURIComponent(item.url),true);xhr.timeout=15000;
-      xhr.onload=function(){
-        if(xhr.status!==200||xhr.responseText.length<500
-           ||(xhr.responseText.indexOf("<item")<0&&xhr.responseText.indexOf("<entry")<0)){pi++;tryP();return;}
-        parseFeed(xhr.responseText,item.cat,9999,dateVal,function(added){
-          totalAdded+=added;fi++;nextFeed();
+    var item = allFeeds[fi];
+    setProgress("Scanning " + item.cat + " / " + (fi + 1) + "/" + totalFeeds + ": " + item.url.replace("https://", "").slice(0, 28), fi, totalFeeds);
+    var pi = 0;
+    function tryP() {
+      if (pi >= PROXIES.length) { fi++; nextFeed(); return; }
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", PROXIES[pi] + encodeURIComponent(item.url), true); xhr.timeout = 15000;
+      xhr.onload = function () {
+        if (xhr.status !== 200 || xhr.responseText.length < 500
+          || (xhr.responseText.indexOf("<item") < 0 && xhr.responseText.indexOf("<entry") < 0)) { pi++; tryP(); return; }
+        parseFeed(xhr.responseText, item.cat, 9999, dateVal, function (added) {
+          totalAdded += added; fi++; nextFeed();
         });
       };
-      xhr.ontimeout=xhr.onerror=function(){pi++;tryP();};
+      xhr.ontimeout = xhr.onerror = function () { pi++; tryP(); };
       xhr.send();
     }
     tryP();
@@ -424,113 +507,89 @@ function loadByDate(){
   nextFeed();
 }
 
-// PARSE FEED — универсальная функция
-// filterDate: "YYYY-MM-DD" или null
-// onDone(addedCount)
-function parseFeed(xml,cat,limit,filterDate,onDone){
-  var doc=new DOMParser().parseFromString(xml,"text/xml");
-  var items=doc.querySelectorAll("item");if(!items.length)items=doc.querySelectorAll("entry");
-  var arts=[],n=0;
-  items.forEach(function(it){
-    if(n>=limit)return;
-    var title=it.querySelector("title")?it.querySelector("title").textContent.trim():"";
-    var lel=it.querySelector("link");
-    var link=lel?(lel.textContent.trim()||lel.getAttribute("href")||"#"):"#";
-    var del=it.querySelector("description")||it.querySelector("summary")||it.querySelector("content");
-    var desc="";
-    if(del){var tmp=document.createElement("div");tmp.innerHTML=del.textContent;desc=(tmp.innerText||tmp.textContent||"").replace(/\s+/g," ").trim();}
-    if(desc.length<title.length+20)desc="";
-    var pubRaw=it.querySelector("pubDate")?it.querySelector("pubDate").textContent.trim():"";
-    var date=pubRaw.slice(0,16);
-    if(filterDate){
-      if(!pubRaw)return;
-      var dd=new Date(pubRaw);
-      var ds=dd.getFullYear()+"-"+String(dd.getMonth()+1).padStart(2,"0")+"-"+String(dd.getDate()).padStart(2,"0");
-      if(ds!==filterDate)return;
+// ---- PARSE FEED ----
+function parseFeed(xml, cat, limit, filterDate, onDone) {
+  var doc = new DOMParser().parseFromString(xml, "text/xml");
+  var items = doc.querySelectorAll("item");
+  if (!items.length) items = doc.querySelectorAll("entry");
+  var arts = [], n = 0;
+  items.forEach(function (it) {
+    if (n >= limit) return;
+    var title = it.querySelector("title") ? it.querySelector("title").textContent.trim() : "";
+    var lel   = it.querySelector("link");
+    var link  = lel ? (lel.textContent.trim() || lel.getAttribute("href") || "#") : "#";
+    var del   = it.querySelector("description") || it.querySelector("summary") || it.querySelector("content");
+    var desc  = "";
+    if (del) { var tmp = document.createElement("div"); tmp.innerHTML = del.textContent; desc = (tmp.innerText || tmp.textContent || "").replace(/\s+/g, " ").trim(); }
+    if (desc.length < title.length + 20) desc = "";
+    var pubRaw = it.querySelector("pubDate") ? it.querySelector("pubDate").textContent.trim() : "";
+    var date   = pubRaw.slice(0, 16);
+    if (filterDate) {
+      if (!pubRaw) return;
+      var dd = new Date(pubRaw);
+      var ds = dd.getFullYear() + "-" + String(dd.getMonth() + 1).padStart(2, "0") + "-" + String(dd.getDate()).padStart(2, "0");
+      if (ds !== filterDate) return;
     }
-    if(title){arts.push({title:title,link:link,desc:desc,date:date,cat:cat});n++;}
+    if (title) { arts.push({ title: title, link: link, desc: desc, date: date, cat: cat }); n++; }
   });
-  var archivedLinks=archiveGetCat(cat).map(function(x){return x.link;});
-  var newArts=arts.filter(function(a){return archivedLinks.indexOf(a.link)===-1;});
-  if(!newArts.length){if(onDone)onDone(0);return;}
 
-  // Добавляем карточки в карусель только для активной категории
-  if(cat===_cat){
-    newArts.forEach(function(a){carouselUpsert({title:a.title,link:a.link,date:a.date,desc:a.desc,cat:a.cat,summary:""});});
+  var archivedLinks = archiveGetCat(cat).map(function (x) { return x.link; });
+  var newArts = arts.filter(function (a) { return archivedLinks.indexOf(a.link) === -1; });
+  if (!newArts.length) { if (onDone) onDone(0); return; }
+
+  if (cat === _cat) {
+    newArts.forEach(function (a) { carouselUpsert({ title: a.title, link: a.link, date: a.date, desc: a.desc, cat: a.cat, summary: "" }); });
   }
 
-  var fetched=0;
-  newArts.forEach(function(a){
-    fetchArticleText(a.link,function(text){
-      a.fetchedText=text;fetched++;
-      if(fetched===newArts.length)runAI(newArts,0,cat,onDone);
+  var fetched = 0;
+  newArts.forEach(function (a) {
+    fetchArticleText(a.link, function (text) {
+      a.fetchedText = text; fetched++;
+      if (fetched === newArts.length) runAI(newArts, 0, cat, onDone);
     });
   });
 }
 
-function fetchArticleText(url,cb){
-  var px=["https://api.allorigins.win/raw?url=","https://corsproxy.io/?","https://api.codetabs.com/v1/proxy?quest="];
-  function go(i){
-    if(i>=px.length){cb("");return;}
-    var xhr=new XMLHttpRequest();xhr.open("GET",px[i]+encodeURIComponent(url),true);xhr.timeout=8000;
-    xhr.onload=function(){
-      if(xhr.status!==200||xhr.responseText.length<500){go(i+1);return;}
-      var tmp=document.createElement("div");tmp.innerHTML=xhr.responseText;
-      ["script","style","nav","header","footer","aside","iframe","button"].forEach(function(t){tmp.querySelectorAll(t).forEach(function(e){e.remove();});});
-      var c=tmp.querySelector("article")||tmp.querySelector("[class*='article-body']")||tmp.querySelector("[class*='article-text']")||tmp.querySelector("[class*='news-text']")||tmp.querySelector("main")||tmp;
-      var text=Array.from(c.querySelectorAll("p")).map(function(p){return(p.innerText||p.textContent).trim();}).filter(function(t){return t.length>40;}).join(" ").replace(/\s+/g," ").trim().slice(0,800);
-      text.length>100?cb(text):go(i+1);
+// ---- FETCH ARTICLE TEXT ----
+function fetchArticleText(url, cb) {
+  var px = [
+    "https://api.allorigins.win/raw?url=",
+    "https://corsproxy.io/?",
+    "https://api.codetabs.com/v1/proxy?quest="
+  ];
+  function go(i) {
+    if (i >= px.length) { cb(""); return; }
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", px[i] + encodeURIComponent(url), true); xhr.timeout = 8000;
+    xhr.onload = function () {
+      if (xhr.status !== 200 || xhr.responseText.length < 500) { go(i + 1); return; }
+      var tmp = document.createElement("div"); tmp.innerHTML = xhr.responseText;
+      ["script","style","nav","header","footer","aside","iframe","button"].forEach(function (t) {
+        tmp.querySelectorAll(t).forEach(function (e) { e.remove(); });
+      });
+      var c = tmp.querySelector("article")
+        || tmp.querySelector("[class*='article-body']")
+        || tmp.querySelector("[class*='article-text']")
+        || tmp.querySelector("[class*='news-text']")
+        || tmp.querySelector("main")
+        || tmp;
+      var text = Array.from(c.querySelectorAll("p"))
+        .map(function (p) { return (p.innerText || p.textContent).trim(); })
+        .filter(function (t) { return t.length > 40; })
+        .join(" ").replace(/\s+/g, " ").trim().slice(0, 800);
+      text.length > 100 ? cb(text) : go(i + 1);
     };
-    xhr.ontimeout=xhr.onerror=function(){go(i+1);};
+    xhr.ontimeout = xhr.onerror = function () { go(i + 1); };
     xhr.send();
   }
   go(0);
 }
 
-function buildPrompt(title,text){
-  var u=text.length>50
-    ?"Title: "+title+"\n\nArticle: "+text.slice(0,600)
-    :"News headline: "+title+"\n\nWrite a brief summary in Russian (1-2 sentences).";
-  return{model:getModel(),messages:[
-    {role:"system",content:"You are a news editor. Write a brief summary in Russian — 1-2 sentences. Only the summary text, no headers, no repetition of the headline."},
-    {role:"user",content:u}
-  ],stream:false,options:{temperature:0.3,num_predict:170,num_ctx:700,num_thread:3}};
-}
-
-function runAI(arts,i,cat,onDone){
-  if(_stopFlag){_aiRunning=false;setStatus("");if(onDone)onDone(0);return;}
-  if(i>=arts.length){_aiRunning=false;setStatus("");if(onDone)onDone(arts.length);return;}
-  _aiRunning=true;
-  var a=arts[i],txt=a.fetchedText||a.desc||"";
-  setStatus("AI ["+(i+1)+"/"+arts.length+"] "+cat+"...");
-  var xhr=new XMLHttpRequest();xhr.open("POST",getUrl()+"/api/chat",true);
-  xhr.setRequestHeader("Content-Type","application/json");xhr.timeout=60000;
-  xhr.onload=function(){
-    if(xhr.status===404){log("Model not found! ollama pull "+getModel(),"error");_aiRunning=false;setStatus("");if(onDone)onDone(0);return;}
-    if(xhr.status===200){
-      try{
-        var data=JSON.parse(xhr.responseText);
-        var summary=(data.message&&data.message.content?data.message.content:"").trim();
-        if(summary.length>5){
-          var fullItem={title:a.title,link:a.link,date:a.date,desc:a.desc,cat:a.cat||cat,summary:summary};
-          if(cat===_cat)carouselUpsert(fullItem);
-          archiveAdd(cat,fullItem);
-          log("AI["+(i+1)+"] ["+cat+"] ok","ok");
-        }else{log("AI["+(i+1)+"] empty","warn");}
-      }catch(e){log("AI parse err","error");}
-    }else{log("AI HTTP "+xhr.status,"error");}
-    runAI(arts,i+1,cat,onDone);
-  };
-  xhr.ontimeout=function(){log("AI timeout","error");runAI(arts,i+1,cat,onDone);};
-  xhr.onerror  =function(){log("AI net err","error"); runAI(arts,i+1,cat,onDone);};
-  xhr.send(JSON.stringify(buildPrompt(a.title,txt)));
-}
-
-function showErr(msg){var e=document.getElementById("errorMsg");e.textContent=msg;e.classList.remove("hidden");}
+function showErr(msg) { var e = document.getElementById("errorMsg"); e.textContent = msg; e.classList.remove("hidden"); }
 
 restoreSettings();
-log("nsum.ru started","ok");
-testOllama();
+log("nsum.ru started", "ok");
+testRouter();
 loadNews("tech");
 startGlobalPolling();
 </script>
