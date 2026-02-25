@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; connect-src *;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nsum.ru</title>
+<title>nsumm.ru</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   #carousel-track { display:flex; transition:transform 0.35s cubic-bezier(.4,0,.2,1); will-change:transform; }
@@ -18,6 +18,7 @@
 
 <div class="text-center mb-10">
   <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">nsum.ru</h1>
+  <p class="text-xl text-gray-700">News Summary</p>
   <p class="text-xl text-gray-600">ИИ-саммари новостей — локальный AI</p>
 </div>
 
@@ -95,24 +96,33 @@
 
 <script>
 var FEEDS = {
-  tech: [
-    "https://habr.com/ru/rss/news/",
-    "https://rssexport.rbc.ru/rbcnews/news/30/full.rss"
-  ],
-  politics: [
-    "https://www.kommersant.ru/RSS/news.xml",
-    "https://ria.ru/export/rss2/politics/index.xml"
-  ],
-  sport: [
-    "https://sports.ru/rss/news/",
-    "https://ria.ru/export/rss2/sport/index.xml",
-    "https://www.sovsport.ru/rss"
-  ],
-  world: [
-    "https://tass.ru/rss/v2.xml",
-    "https://ria.ru/export/rss2/world/index.xml"
-  ]
+  tech: ["https://habr.com/ru/rss/news/"],
+  politics: ["https://www.kommersant.ru/RSS/news.xml", "https://ria.ru/export/rss2/politics/index.xml"],
+  sport: ["https://sports.ru/rss/news/", "https://ria.ru/export/rss2/sport/index.xml", "https://www.sovsport.ru/rss"],
+  world: ["https://tass.ru/rss/v2.xml", "https://ria.ru/export/rss2/world/index.xml"]
 };
+
+// В testOllama() замени timeout=5000 на timeout=10000
+xhr.timeout=10000;
+
+// В runAI() замени timeout=60000 на timeout=30000
+xhr.timeout=30000;
+
+// Новая функция чистого лога
+function log(msg, t) {
+  var d = document.getElementById("log");
+  var cols = {info:"text-blue-400",ok:"text-green-400",error:"text-red-400",warn:"text-yellow-400"};
+  var icons = {info:"->",ok:"✓",error:"✗",warn:"?"};
+  
+  // Фильтр спама — показываем только важное
+  if (t === "error" && (msg.includes("TIMEOUT") || msg.includes("net err"))) return;
+  
+  var ln = document.createElement("div");
+  ln.className = cols[t] || "text-gray-300";
+  ln.textContent = "["+new Date().toLocaleTimeString()+"] ["+(icons[t]||"->")+"] "+msg;
+  d.appendChild(ln); 
+  d.scrollTop = d.scrollHeight;
+}
 var PROXIES = [
   "/api/rss?url=",
   "https://corsproxy.io/?",
@@ -307,15 +317,20 @@ function loadNews(cat){
 }
 function tryProxy(){
   if(_fi>=FEEDS[_cat].length){log("All RSS failed","error");showErr("RSS unavailable");setStatus("");return;}
-  if(_pi>=PROXIES.length){_fi++;_pi=0;tryProxy();return;}
+  if(_pi>=PROXIES.length){log("Proxy "+(_pi)+" failed for "+FEEDS[_cat][_fi]);_fi++;_pi=0;tryProxy();return;}
+  
   var rss=FEEDS[_cat][_fi];
+  log("Trying proxy "+(_pi+1)+"/"+PROXIES.length+" for "+rss.replace("https://","").slice(0,30),"info");
+  
   var xhr=new XMLHttpRequest();xhr.open("GET",PROXIES[_pi]+encodeURIComponent(rss),true);xhr.timeout=15000;
   xhr.onload=function(){
+    log("Proxy "+(_pi+1)+" status: "+xhr.status+", size: "+xhr.responseText.length,"info");
     if(xhr.status!==200||xhr.responseText.length<500){_pi++;tryProxy();return;}
-    if(xhr.responseText.indexOf("<item")<0&&xhr.responseText.indexOf("<entry")<0){_pi++;tryProxy();return;}
+    if(xhr.responseText.indexOf("<item")<0&&xhr.responseText.indexOf("<entry")<0){log("No RSS items found");_pi++;tryProxy();return;}
     parseFeed(xhr.responseText,_cat,20,null,function(){setStatus("");});
   };
-  xhr.ontimeout=xhr.onerror=function(){_pi++;tryProxy();};
+  xhr.ontimeout=function(){log("Proxy "+(_pi+1)+" TIMEOUT");_pi++;tryProxy();};
+  xhr.onerror=function(){log("Proxy "+(_pi+1)+" ERROR");_pi++;tryProxy();};
   xhr.send();
 }
 
@@ -529,7 +544,7 @@ function runAI(arts,i,cat,onDone){
 function showErr(msg){var e=document.getElementById("errorMsg");e.textContent=msg;e.classList.remove("hidden");}
 
 restoreSettings();
-log("nsum.ru started","ok");
+log("nsumm.ru started","ok");
 testOllama();
 loadNews("tech");
 startGlobalPolling();
